@@ -23,6 +23,29 @@ describe('Queue', () => {
     return client.quit();
   });
 
+  describe('.addMany', () => {
+    let testQueue;
+    beforeEach(() => {
+      return utils.newQueue('test').then(queue => {
+        testQueue = queue;
+      });
+    });
+
+    it('should create multiple jobs', done => {
+      testQueue
+        .addMany([{ data: { foo: 'bar' } }, { data: { foo2: 'bar2' } }])
+        .then(jobs => {
+          expect(jobs.length).to.be.eql(2);
+          expect(jobs[0].id).to.be.ok;
+          expect(jobs[0].data.foo).to.be.eql('bar');
+          expect(jobs[1].id).to.be.ok;
+          expect(jobs[1].data.foo2).to.be.eql('bar2');
+          expect(jobs[0].opts.pipeline).to.not.be.ok;
+          done();
+        });
+    });
+  });
+
   describe('.close', () => {
     let testQueue;
     beforeEach(() => {
