@@ -2493,7 +2493,7 @@ describe('Queue', () => {
   });
 
   describe('Drain queue', () => {
-    it('should count zero after draining the queue', () => {
+    it('should count zero after draining the queue with multi', () => {
       const maxJobs = 100;
       const added = [];
 
@@ -2508,7 +2508,30 @@ describe('Queue', () => {
         .then(count => {
           expect(count).to.be.eql(maxJobs);
         })
-        .then(queue.empty.bind(queue))
+        .then(queue.empty.bind(queue, { opType: 'multi', batchSize: 10 }))
+        .then(queue.count.bind(queue))
+        .then(count => {
+          expect(count).to.be.eql(0);
+          return queue.close();
+        });
+    });
+
+    it('should count zero after draining the queue with pipeline', () => {
+      const maxJobs = 100;
+      const added = [];
+
+      const queue = utils.buildQueue();
+
+      for (let i = 1; i <= maxJobs; i++) {
+        added.push(queue.add({ foo: 'bar', num: i }));
+      }
+
+      return Promise.all(added)
+        .then(queue.count.bind(queue))
+        .then(count => {
+          expect(count).to.be.eql(maxJobs);
+        })
+        .then(queue.empty.bind(queue, { opType: 'pipeline', batchSize: 10 }))
         .then(queue.count.bind(queue))
         .then(count => {
           expect(count).to.be.eql(0);
