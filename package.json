@@ -1,6 +1,6 @@
 {
-  "name": "bull",
-  "version": "3.20.0",
+  "name": "@finbox/bull",
+  "version": "3.20.0-patch.0",
   "description": "Job manager",
   "engines": {
     "node": ">=10"
