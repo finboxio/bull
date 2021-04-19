@@ -54,6 +54,46 @@ describe('sandboxed process', () => {
     queue.add({ foo: 'bar' });
   });
 
+  it('should process and complete with ecmascript modules', done => {
+    const processFile = __dirname + '/fixtures/fixture_processor_module.mjs';
+    queue.process(processFile);
+
+    queue.on('completed', (job, value) => {
+      try {
+        expect(job.data).to.be.eql({ foo: 'bar' });
+        expect(value).to.be.eql(42);
+        expect(Object.keys(queue.childPool.retained)).to.have.lengthOf(0);
+        expect(queue.childPool.free[processFile]).to.have.lengthOf(1);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    queue.add({ foo: 'bar' });
+  });
+
+  it('should process and complete with options', done => {
+    const processFile = __dirname + '/fixtures/fixture_processor_options.js';
+    queue.process(processFile, { result: 42 });
+
+    queue.on('completed', (job, value) => {
+      try {
+        expect(job.data).to.be.eql({ foo: 'bar' });
+        expect(value).to.be.eql({ result: 42 });
+        expect(Object.keys(queue.childPool.retained)).to.have.lengthOf(0);
+        expect(queue.childPool.free[processFile]).to.have.lengthOf(1);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    queue.on('error', (e) => done(e))
+
+    queue.add({ foo: 'bar' });
+  });
+
   it('should process with named processor', done => {
     const processFile = __dirname + '/fixtures/fixture_processor.js';
     queue.process('foobar', processFile);
@@ -346,7 +386,6 @@ describe('sandboxed process', () => {
   });
 
   it('should allow the job to complete and then exit on clean', async function() {
-    this.timeout(1500);
     const processFile = __dirname + '/fixtures/fixture_processor_slow.js';
     queue.process(processFile);
 
