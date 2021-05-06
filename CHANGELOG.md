@@ -1,4 +1,30 @@
-# Changelog
+## [3.22.4](https://github.com/OptimalBits/bull/compare/v3.22.3...v3.22.4) (2021-04-27)
+
+
+### Bug Fixes
+
+* also populate retriedOn when loading from id with excludeData ([0964b39](https://github.com/OptimalBits/bull/commit/0964b390d9190510f0d016f4eb2a3f1bc6cdb4e5))
+
+## [3.22.3](https://github.com/OptimalBits/bull/compare/v3.22.2...v3.22.3) (2021-04-23)
+
+
+### Bug Fixes
+
+* **delayed:** re-schedule updateDelay in case of error fixes [#2015](https://github.com/OptimalBits/bull/issues/2015) ([16bbfad](https://github.com/OptimalBits/bull/commit/16bbfadb270bc6c7d6df9cf5ab30b7f66028b2b3))
+
+## [3.22.2](https://github.com/OptimalBits/bull/compare/v3.22.1...v3.22.2) (2021-04-23)
+
+
+### Bug Fixes
+
+* **obliterate:** obliterate many jobs fixes [#2016](https://github.com/OptimalBits/bull/issues/2016) ([7a923b4](https://github.com/OptimalBits/bull/commit/7a923b468d5299bbdfe06d1ee7447fd810e2779b))
+
+
+## v.3.22.1
+
+- fix(obliterate): remove repeatable jobs fixes #2012
+
+[Changes](https://github.com/OptimalBits/bull/compare/v3.22.0...v3.22.1)
 
 ## v.3.22.0
 

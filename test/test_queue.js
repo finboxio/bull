@@ -150,7 +150,7 @@ describe('Queue', () => {
       expect(queue.eclient.options.db).to.be.eql(2);
 
       return queue.close();
-    });
+    }).timeout(10000);
 
     it('should create a queue with only a hostname', () => {
       const queue = new Queue('connstring', 'redis://127.2.3.4', {
